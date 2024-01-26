@@ -11,13 +11,13 @@ class Home extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: 220,
+              height: 240,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                color: Color(0xFFD43642),
-                borderRadius: BorderRadius.only(bottomRight: Radius.circular(50),bottomLeft:
-                Radius.circular(50)
-                )
+                image: DecorationImage(
+                  image: AssetImage('assets/cover.jpg'),
+                  fit: BoxFit.fill
+                ),
               ),
               child: Container(
                 margin: EdgeInsets.only(top: 50),
@@ -26,18 +26,35 @@ class Home extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(Icons.menu,
-                        size:30,
-                          color: Colors.white,
+                        CircleAvatar(
+                          child: Icon(Icons.account_circle,
+                          ),
+                          radius: 18,
                         ),
-                        Text("Current Location",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                        ),
+                        Container(
+                          padding: EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: Colors.white38
+                          ),
+                          child: const Row(
+                            children: [
+                              Icon(Icons.pin_drop,
+                              color: Colors.white,),
+                              Text("Nairobi",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              Icon(Icons.arrow_drop_down,
+                              color: Colors.white,
+                              )
+                            ],
+                          ),
                         ),
                         Icon(Icons.notification_important,
                          color: Colors.white,
@@ -46,33 +63,35 @@ class Home extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 18,),
-                    const Text("Good Morning Frankline",
+                    const Text("Hello,Frankline",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 3,),
+                    const Text("Discover what's happening around you",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
+                    SizedBox(height:5,),
                     Container(
+                      height: 55,
                       padding: const EdgeInsets.only(left: 3),
-                      child:const TextField(
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          letterSpacing: 1
-                        ),
+                      child:TextField(
                         decoration: InputDecoration(
-                          border: InputBorder.none,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          filled: true,
+                          hintStyle: TextStyle(color: Colors.grey[800]),
+                          hintText: "Search any events...",
                           fillColor: Colors.white,
-                          icon: Icon(Icons.search,
-                          size: 30,
-                            color: Colors.white,
-                          ),
-                          hintText: "I Search...",
-                          hintStyle: TextStyle(
-                            color: Colors.white30,
-                            fontSize: 18,
-                          ),
+                          prefixIcon: Icon(Icons.search),
+                          suffixIcon: Icon(IconData(0xf068,fontFamily: 'MaterialIcons'))
                         ),
                       ) ,
                     )
@@ -84,100 +103,95 @@ class Home extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 15),
               child:
-              SingleChildScrollView(
+              const SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(25)),
-                        color: Colors.deepOrangeAccent,
-                      ),
-                      padding: EdgeInsets.all(10),
-                      child:const Row(
-                        children: [
-                          Icon(Icons.bubble_chart,
-                            color: Colors.white,
+                    Column(
+                      children: [
+                        CircleAvatar(
+                          child: Icon(IconData(0xf8b2, fontFamily: 'MaterialIcons'),
+                            color: Color(0xFFD43642),
                             size: 26,
                           ),
-                          Text("Confrences",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                            ),
-                          )
-                        ],
-                      ),
+                          backgroundColor: Colors.white,
+                          radius: 20,
+                        ),
+                        Text("Confrences",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold
+                          ),
+                        )
+                      ],
                     ),
-                    SizedBox(width: 10,),
-                    Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(25)),
-                        color: Color(0xFFD43642),
-                      ),
-                      padding: EdgeInsets.all(10),
-                      child:const Row(
-                        children: [
-                          Icon(Icons.bubble_chart,
-                            color: Colors.white,
+                    SizedBox(width: 15,),
+                    Column(
+                      children: [
+                        CircleAvatar(
+                          child: Icon(IconData(0xede5, fontFamily: 'MaterialIcons'),
+                            color: Color(0xFFD43642),
                             size: 26,
                           ),
-                          Text("Concert",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                            ),
-                          )
-                        ],
-                      ),
+                          backgroundColor: Colors.white,
+                          radius: 20,
+                        ),
+                        Text("Concert",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                              fontWeight: FontWeight.bold
+
+                          ),
+                        )
+                      ],
                     ),
-                    SizedBox(width: 10,),
-                    Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(25)),
-                        color: Color(0xFF29D697),
-                      ),
-                      padding: EdgeInsets.all(10),
-                      child:const Row(
-                        children: [
-                          Icon(Icons.bubble_chart,
-                            color: Colors.white,
+                    SizedBox(width: 15,),
+                    Column(
+                      children: [
+                        CircleAvatar(
+                          child: Icon(IconData(0xe0f0, fontFamily: 'MaterialIcons'),
+                            color: Color(0xFFD43642),
                             size: 26,
                           ),
-                          Text("Seminars",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                            ),
-                          )
-                        ],
-                      ),
+                          backgroundColor: Colors.white,
+                          radius: 20,
+                        ),
+                        Text("Seminars",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                              fontWeight: FontWeight.bold
+
+                          ),
+                        )
+                      ],
                     ),
-                    SizedBox(width: 10,),
-                    Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(25)),
-                        color: Color(0xFF46CDFB),
-                      ),
-                      padding: EdgeInsets.all(10),
-                      child:const Row(
-                        children: [
-                          Icon(Icons.bubble_chart,
-                            color: Colors.white,
+                    SizedBox(width: 15,),
+                    Column(
+                      children: [
+                        CircleAvatar(
+                          child: Icon(Icons.bubble_chart,
+                            color: Color(0xFFD43642),
                             size: 26,
                           ),
-                          Text("Tradeshows",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                            ),
-                          )
-                        ],
-                      ),
+                          backgroundColor: Colors.white,
+                          radius: 20,
+                        ),
+                        Text("Tradeshows",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                              fontWeight: FontWeight.bold
+
+                          ),
+                        )
+                      ],
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 15,),
                   ],
                 ),
               ),
@@ -206,18 +220,20 @@ class Home extends StatelessWidget {
                 ],
               ),
             ),
-            Column(
-              children: [
-                Card(
-                  child: Container(
-                    height: 125,
-                    child:Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 130,
-                            width: 155,
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Card(
+                    child: Container(
+                      height: 260,
+                      width: 260,
+                      padding: EdgeInsets.all(8),
+                      child:Column(
+                        children: [
+                          Container(
+                            height: 140,
+                            width: 250,
                             // padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               image: DecorationImage(
@@ -228,176 +244,116 @@ class Home extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10)
                             ),
                           ),
-                        ),
-                        const Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Wed,Apr 28 - 5:30 PM',
-                              style: TextStyle(
-                                color: Color(0xFFD43642)
-                              ),
-                              ),
-                              Text('Global Summit for Disaster Risk Reduction 2024',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold
-                              ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Icon(Icons.pin_drop,
-                                  color: Color(0xFFD43642),),
-                                  Expanded(
-                                    child: Text('Lantana Road Nairobi, Nairobi County',
-                                    style: TextStyle(
-                                      fontSize: 10,
+                          const Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 10,),
+                                Text('Wed,Apr 28 - 5:30 PM',
+                                style: TextStyle(
+                                  color: Color(0xFFD43642)
+                                ),
+                                ),
+                                Text('Global Summit for Disaster Risk Reduction 2024',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold
+                                ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.pin_drop,
+                                    color: Color(0xFFD43642),),
+                                    Expanded(
+                                      child: Text('Lantana Road Nairobi, Nairobi County',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        color: Color(0xFFD43642)
+                                      ),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 5,),
+                  Card(
+                    child: Container(
+                      height: 260,
+                      width: 260,
+                      padding: EdgeInsets.all(8),
+                      child:Column(
+                        children: [
+                          Container(
+                            height: 140,
+                            width: 250,
+                            // padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                      'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F647114729%2F322503454361%2F1%2Foriginal.20231123-095900?w=940&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C60%2C1920%2C960&s=39691fe5de58259ff906e2df9c75642b'),
+                                  fit: BoxFit.fill,
+                                ),
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                          ),
+                          const Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 10,),
+                                Text('Wed,Apr 28 - 5:30 PM',
+                                  style: TextStyle(
                                       color: Color(0xFFD43642)
-                                    ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 5,),
-                Card(
-                  child: Container(
-                    height: 125,
-                    child:Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 130,
-                            width: 155,
-                            // padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                      'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F660094379%2F1941358271603%2F1%2Foriginal.20231218-120938?w=940&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C88%2C1586%2C793&s=fc4aa9389eaa2622f2443d71f4c2dc66'),
-                                  fit: BoxFit.fill,
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                          ),
-                        ),
-                        const Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Wed,Apr 28 - 5:30 PM',
-                                style: TextStyle(
-                                    color: Color(0xFFD43642)
+                                Text('Global Summit for Disaster Risk Reduction 2024',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold
+                                  ),
                                 ),
-                              ),
-                              Text('Kenya Association of Women in Tourism Conference',
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Icon(Icons.pin_drop,
-                                    color: Color(0xFFD43642),),
-                                  Expanded(
-                                    child: Text('Lantana Road Nairobi, Nairobi County',
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          color: Color(0xFFD43642)
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.pin_drop,
+                                      color: Color(0xFFD43642),),
+                                    Expanded(
+                                      child: Text('Lantana Road Nairobi, Nairobi County',
+                                        style: TextStyle(
+                                            fontSize: 10,
+                                            color: Color(0xFFD43642)
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 5,),
-                Card(
-                  child: Container(
-                    height: 125,
-                    child:Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 130,
-                            width: 155,
-                            // padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                      'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F658735679%2F569651512697%2F1%2Foriginal.jpg?w=940&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C2160%2C1080&s=84f65179c6ab63b0ab827b2a8d7bb181'),
-                                  fit: BoxFit.fill,
-                                ),
-                                borderRadius: BorderRadius.circular(10)
+                                    )
+                                  ],
+                                )
+                              ],
                             ),
-                          ),
-                        ),
-                        const Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Wed,Apr 28 - 5:30 PM',
-                                style: TextStyle(
-                                    color: Color(0xFFD43642)
-                                ),
-                              ),
-                              Text('Eradicating Racism: A Path Forward Learning Series (February 2024)',
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Icon(Icons.pin_drop,
-                                    color: Color(0xFFD43642),),
-                                  Expanded(
-                                    child: Text('Lantana Road Nairobi, Nairobi County',
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          color: Color(0xFFD43642)
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 5,),
-                Card(
-                  child: Container(
-                    height: 125,
-                    child:Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 130,
-                            width: 155,
+                  SizedBox(height: 5,),
+                  Card(
+                    child: Container(
+                      height: 290,
+                      width: 230,
+                      padding: EdgeInsets.all(8),
+                      child:Column(
+                        children: [
+                          Container(
+                            height: 140,
+                            width: 220,
                             // padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 image: DecorationImage(
@@ -408,108 +364,48 @@ class Home extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10)
                             ),
                           ),
-                        ),
-                        const Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Wed,Apr 28 - 5:30 PM',
-                                style: TextStyle(
-                                    color: Color(0xFFD43642)
+                          const Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 10,),
+                                Text('Wed,Apr 28 - 5:30 PM',
+                                  style: TextStyle(
+                                      color: Color(0xFFD43642)
+                                  ),
                                 ),
-                              ),
-                              Text('Global Summit for Disaster Risk Reduction 2024',
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold
+                                Text('Global Summit for Disaster Risk Reduction 2024',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold
+                                  ),
                                 ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Icon(Icons.pin_drop,
-                                    color: Color(0xFFD43642),),
-                                  Expanded(
-                                    child: Text('Lantana Road Nairobi, Nairobi County',
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          color: Color(0xFFD43642)
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.pin_drop,
+                                      color: Color(0xFFD43642),),
+                                    Expanded(
+                                      child: Text('Lantana Road Nairobi, Nairobi County',
+                                        style: TextStyle(
+                                            fontSize: 10,
+                                            color: Color(0xFFD43642)
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 5,),
-                Card(
-                  child: Container(
-                    height: 125,
-                    child:Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 130,
-                            width: 155,
-                            // padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                      'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F647114729%2F322503454361%2F1%2Foriginal.20231123-095900?w=940&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C60%2C1920%2C960&s=39691fe5de58259ff906e2df9c75642b'),
-                                  fit: BoxFit.fill,
-                                ),
-                                borderRadius: BorderRadius.circular(10)
+                                    )
+                                  ],
+                                )
+                              ],
                             ),
-                          ),
-                        ),
-                        const Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Wed,Apr 28 - 5:30 PM',
-                                style: TextStyle(
-                                    color: Color(0xFFD43642)
-                                ),
-                              ),
-                              Text('Global Summit for Disaster Risk Reduction 2024',
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Icon(Icons.pin_drop,
-                                    color: Color(0xFFD43642),),
-                                  Expanded(
-                                    child: Text('Lantana Road Nairobi, Nairobi County',
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          color: Color(0xFFD43642)
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 5,),
-
-              ],
+                  SizedBox(height: 5,),
+                ],
+              ),
             )
           ],
         ),
