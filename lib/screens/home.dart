@@ -1,339 +1,286 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:pull_up/Components/color.dart';
+import 'package:pull_up/screens/auth/register.dart';
+import 'package:pull_up/screens/events/create_event.dart';
+import 'package:pull_up/screens/events/eventDetails.dart';
+import 'package:pull_up/screens/events/event_discovery.dart';
+import 'package:pull_up/widgets/topbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'dart:convert';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+
+import '../model/event.dart';
+
+class Home extends StatefulWidget {
+  Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final imagesList = ['assets/cover.jpg','assets/cover.jpg','assets/cover.jpg'];
+
+  int currentIndex = 0;
+  List<Event> events = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchEvents();
+  }
+
+  Future<void> fetchEvents() async {
+    final response = await http.get(Uri.parse('https://culturemambo.pivotnetworks.co.ke/public/api/event/read'));
+    if (response.statusCode == 200) {
+      // Decode the response body into a map
+      Map<String, dynamic> responseData = json.decode(response.body);
+
+      // Extract the list of events from the map using the appropriate key
+      List<dynamic> eventData = responseData['data'];
+
+      setState(() {
+        events = eventData.map((data) => Event.fromJson(data)).toList();
+      });
+    } else {
+      throw Exception('Failed to load events');
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: 240,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/cover.jpg'),
-                  fit: BoxFit.fill
-                ),
-              ),
+            const topbar(
+            ),
+            const SizedBox(height: 10,),
+            GestureDetector(
+              onTap: (){
+                Navigator.push(context,
+                MaterialPageRoute(builder: (context)=> const RegisterScreen())
+                );
+              },
               child: Container(
-                margin: EdgeInsets.only(top: 50),
-                padding: EdgeInsets.only(left:10,right: 10,),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CircleAvatar(
-                          child: Icon(Icons.account_circle,
-                          ),
-                          radius: 18,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: Colors.white38
-                          ),
-                          child: const Row(
-                            children: [
-                              Icon(Icons.pin_drop,
-                              color: Colors.white,),
-                              Text("Nairobi",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              Icon(Icons.arrow_drop_down,
-                              color: Colors.white,
-                              )
-                            ],
-                          ),
-                        ),
-                        Icon(Icons.notification_important,
-                         color: Colors.white,
-                          size: 30,
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 18,),
-                    const Text("Hello,Frankline",
+                height: 50,
+                width: 200,
+                decoration: BoxDecoration(
+                  color: Colors.black12,
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                child: const Center(child: Text("SIGN UP",
+                style: TextStyle(
+                  color: Color(0xFFD43642),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  letterSpacing: 1,
+                ),
+                )),
+              ),
+            ),
+            const SizedBox(height: 10,),
+            Container(
+              padding: const EdgeInsets.all(10),
+              height: 200,
+              width: MediaQuery.of(context).size.width,
+              margin: const EdgeInsets.all(10),
+              decoration:const BoxDecoration(
+                color: Color(0xff0ff6F1636)
+              ),
+              child:Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Center(
+                    child: Text("CREATE"+"  "+ "EVENT",
                     style: TextStyle(
+                      fontSize: 25,
                       color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 10,
+                    ),
+                    ),
+                  ),
+                  Container(
+                    height: 50,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(10),
+
+                    ),
+                    child:GestureDetector(
+                      onTap: (){
+                        Navigator.push(context,
+                        MaterialPageRoute(builder: (context)=>const CreateEvents())
+                        );
+                      },
+                      child: const Center(child: Text("CREATE",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          letterSpacing: 1,
+                        ),
+                      )),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10,),
+            Container(
+              padding: const EdgeInsets.only(right: 20,left: 20),
+              width: double.infinity,
+              child: Card(
+                child: Text("DISCOVER EVENTS",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                    ),
-                    ),
-                    SizedBox(height: 3,),
-                    const Text("Discover what's happening around you",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                      ),
-                    ),
-                    SizedBox(height:5,),
-                    Container(
-                      height: 55,
-                      padding: const EdgeInsets.only(left: 3),
-                      child:TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          filled: true,
-                          hintStyle: TextStyle(color: Colors.grey[800]),
-                          hintText: "Search any events...",
-                          fillColor: Colors.white,
-                          prefixIcon: Icon(Icons.search),
-                          suffixIcon: Icon(IconData(0xf068,fontFamily: 'MaterialIcons'))
-                        ),
-                      ) ,
-                    )
-                  ],
+                      color: primaryColor
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: 10,),
             Container(
-              margin: EdgeInsets.only(left: 15),
-              child:
-              const SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          child: Icon(IconData(0xf8b2, fontFamily: 'MaterialIcons'),
-                            color: Color(0xFFD43642),
-                            size: 26,
-                          ),
-                          backgroundColor: Colors.white,
-                          radius: 20,
+              padding: const EdgeInsets.only(left: 10,right: 10),
+              height: 500,
+              child:ListView.builder(
+                itemCount: events.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTap: () {
+                      // Navigate to EventDetails screen with the event id
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => eventDetails(eventId: events[index].id.toString()),
                         ),
-                        Text("Confrences",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(width: 15,),
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          child: Icon(IconData(0xede5, fontFamily: 'MaterialIcons'),
-                            color: Color(0xFFD43642),
-                            size: 26,
-                          ),
-                          backgroundColor: Colors.white,
-                          radius: 20,
-                        ),
-                        Text("Concert",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                              fontWeight: FontWeight.bold
-
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(width: 15,),
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          child: Icon(IconData(0xe0f0, fontFamily: 'MaterialIcons'),
-                            color: Color(0xFFD43642),
-                            size: 26,
-                          ),
-                          backgroundColor: Colors.white,
-                          radius: 20,
-                        ),
-                        Text("Seminars",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                              fontWeight: FontWeight.bold
-
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(width: 15,),
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          child: Icon(Icons.bubble_chart,
-                            color: Color(0xFFD43642),
-                            size: 26,
-                          ),
-                          backgroundColor: Colors.white,
-                          radius: 20,
-                        ),
-                        Text("Tradeshows",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                              fontWeight: FontWeight.bold
-
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(width: 15,),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 20,),
-            Container(
-              padding: EdgeInsets.only(right: 20,left: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Upcoming Events",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54
-                  ),
-                  ),
-                  TextButton(onPressed: (){}, child:
-                  Row(
-                    children: [
-                      Text("See All"),
-                      Icon(Icons.arrow_right)
-                    ],
-                  )
-                  )
-                ],
-              ),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  Card(
+                      );
+                    },
                     child: Container(
-                      height: 260,
-                      width: 260,
-                      padding: EdgeInsets.all(8),
+                      height: 317,
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.all(10),
                       child:Column(
                         children: [
                           Container(
-                            height: 140,
-                            width: 250,
-                            // padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F647114729%2F322503454361%2F1%2Foriginal.20231123-095900?w=940&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C60%2C1920%2C960&s=39691fe5de58259ff906e2df9c75642b'),
-                                fit: BoxFit.fill,
-                              ),
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                          ),
-                          const Expanded(
+                            // height: 200,
+                            // decoration: BoxDecoration(
+                            //     image: const DecorationImage(
+                            //       image: AssetImage(
+                            //           'assets/cover.jpg'),
+                            //       fit: BoxFit.cover,
+                            //     ),
+                            //     borderRadius: BorderRadius.circular(10)
+                            // ),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 10,),
-                                Text('Wed,Apr 28 - 5:30 PM',
-                                style: TextStyle(
-                                  color: Color(0xFFD43642)
-                                ),
-                                ),
-                                Text('Global Summit for Disaster Risk Reduction 2024',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold
-                                ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                Stack(
                                   children: [
-                                    Icon(Icons.pin_drop,
-                                    color: Color(0xFFD43642),),
-                                    Expanded(
-                                      child: Text('Lantana Road Nairobi, Nairobi County',
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        color: Color(0xFFD43642)
+                                    CarouselSlider(
+                                      items: imagesList.map((e) {
+                                        return Container(
+                                          height: 200,
+                                          margin: EdgeInsets.symmetric(horizontal: 5),
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: AssetImage(e),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      options: CarouselOptions(
+                                        height: 200,
+                                        onPageChanged: (index, reason) {
+                                          setState(() {
+                                            currentIndex = index;
+                                          });
+                                        },
                                       ),
+                                    ),
+                                    Positioned(
+                                      bottom: 10, // Adjust this value as needed to position the dots
+                                      left: 0,
+                                      right: 0,
+                                      child: Center(
+                                        child: AnimatedSmoothIndicator(
+                                          activeIndex: currentIndex,
+                                          count: imagesList.length,
+                                          effect: const WormEffect(
+                                            dotHeight: 8,
+                                            dotWidth: 8,
+                                            spacing: 5,
+                                            dotColor: Colors.white,
+                                            activeDotColor: Colors.red,
+                                            paintStyle: PaintingStyle.fill,
+                                          ),
+                                        ),
                                       ),
-                                    )
+                                    ),
                                   ],
-                                )
+                                ),
                               ],
                             ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5,),
-                  Card(
-                    child: Container(
-                      height: 260,
-                      width: 260,
-                      padding: EdgeInsets.all(8),
-                      child:Column(
-                        children: [
-                          Container(
-                            height: 140,
-                            width: 250,
-                            // padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                      'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F647114729%2F322503454361%2F1%2Foriginal.20231123-095900?w=940&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C60%2C1920%2C960&s=39691fe5de58259ff906e2df9c75642b'),
-                                  fit: BoxFit.fill,
-                                ),
-                                borderRadius: BorderRadius.circular(10)
-                            ),
                           ),
-                          const Expanded(
+                           Expanded(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 10,),
-                                Text('Wed,Apr 28 - 5:30 PM',
-                                  style: TextStyle(
+                                const SizedBox(height: 10,),
+                                Text(events[index].date_time ?? 'No date available',
+                                  style: const TextStyle(
                                       color: Color(0xFFD43642)
                                   ),
                                 ),
-                                Text('Global Summit for Disaster Risk Reduction 2024',
-                                  style: TextStyle(
+                                Text(events[index].service ?? 'No date available',
+                                  style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold
                                   ),
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+
+                                Stack(
                                   children: [
-                                    Icon(Icons.pin_drop,
-                                      color: Color(0xFFD43642),),
-                                    Expanded(
-                                      child: Text('Lantana Road Nairobi, Nairobi County',
-                                        style: TextStyle(
-                                            fontSize: 10,
-                                            color: Color(0xFFD43642)
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        const Icon(Icons.pin_drop,
+                                          color: Color(0xFFD43642),),
+                                        Expanded(
+                                          child: Text(events[index].location ?? 'No date available',
+                                            style: const TextStyle(
+                                                fontSize: 10,
+                                                color: Color(0xFFD43642)
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          events[index].price ?? 'No date available',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                              color: Colors.red
+                                          ),
                                         ),
-                                      ),
-                                    )
+                                      ],
+                                    ),
                                   ],
                                 )
                               ],
@@ -342,74 +289,14 @@ class Home extends StatelessWidget {
                         ],
                       ),
                     ),
-                  ),
-                  SizedBox(height: 5,),
-                  Card(
-                    child: Container(
-                      height: 290,
-                      width: 230,
-                      padding: EdgeInsets.all(8),
-                      child:Column(
-                        children: [
-                          Container(
-                            height: 140,
-                            width: 220,
-                            // padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                      'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F647114729%2F322503454361%2F1%2Foriginal.20231123-095900?w=940&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C60%2C1920%2C960&s=39691fe5de58259ff906e2df9c75642b'),
-                                  fit: BoxFit.fill,
-                                ),
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                          ),
-                          const Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(height: 10,),
-                                Text('Wed,Apr 28 - 5:30 PM',
-                                  style: TextStyle(
-                                      color: Color(0xFFD43642)
-                                  ),
-                                ),
-                                Text('Global Summit for Disaster Risk Reduction 2024',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(Icons.pin_drop,
-                                      color: Color(0xFFD43642),),
-                                    Expanded(
-                                      child: Text('Lantana Road Nairobi, Nairobi County',
-                                        style: TextStyle(
-                                            fontSize: 10,
-                                            color: Color(0xFFD43642)
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5,),
-                ],
+                  );
+                },
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
+
 }

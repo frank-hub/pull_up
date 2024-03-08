@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "898087405766",
+    "project_id": "pull-up-64944",
+    "storage_bucket": "pull-up-64944.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:898087405766:android:e722a62e44a84b3f262fc7",
+        "android_client_info": {
+          "package_name": "com.pullup_android.pull_up"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo34ofGB66V8mnIG3-4Um7qRR29cQor18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
