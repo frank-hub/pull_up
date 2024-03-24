@@ -39,7 +39,7 @@ class Profile extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const CircleAvatar(
               backgroundImage:AssetImage('assets/user-profile.png',

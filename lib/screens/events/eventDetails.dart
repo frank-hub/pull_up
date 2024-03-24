@@ -29,7 +29,7 @@ class _eventDetailsState extends State<eventDetails> {
   }
 
   Future<void> fetchEventDetails() async {
-    final url = Uri.parse('https://culturemambo.pivotnetworks.co.ke/public/api/event/details/${widget.eventId}');
+    final url = Uri.parse('https://www.culturemambo.pivotnetworks.co.ke/public/api/event/details/${widget.eventId}');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {

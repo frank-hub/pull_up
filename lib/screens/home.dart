@@ -22,7 +22,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final imagesList = ['assets/cover.jpg','assets/cover.jpg','assets/cover.jpg'];
+  final imagesList = ['assets/demo.jpeg','assets/cover.jpg','assets/logo.jpg'];
 
   int currentIndex = 0;
   List<Event> events = [];
@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> fetchEvents() async {
-    final response = await http.get(Uri.parse('https://culturemambo.pivotnetworks.co.ke/public/api/event/read'));
+    final response = await http.get(Uri.parse('https://www.culturemambo.pivotnetworks.co.ke/public/api/event/read'));
     if (response.statusCode == 200) {
       // Decode the response body into a map
       Map<String, dynamic> responseData = json.decode(response.body);
@@ -57,6 +57,9 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        physics: ScrollPhysics(),
+
         child: Column(
           children: [
             const topbar(
@@ -136,27 +139,35 @@ class _HomeState extends State<Home> {
               ),
             ),
             const SizedBox(height: 10,),
-            Container(
-              padding: const EdgeInsets.only(right: 20,left: 20),
-              width: double.infinity,
-              child: Card(
-                child: Text("DISCOVER EVENTS",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: primaryColor
+            GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context)=> EventDiscovery()
+                ));
+              },
+              child: Container(
+                padding: const EdgeInsets.only(right: 20,left: 20),
+                width: double.infinity,
+                child: Card(
+                  child: Text("DISCOVER EVENTS",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: primaryColor
+                    ),
                   ),
                 ),
               ),
             ),
             Container(
               padding: const EdgeInsets.only(left: 10,right: 10),
-              height: 500,
               child:ListView.builder(
                 itemCount: events.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
+                  return InkWell(
                     onTap: () {
                       // Navigate to EventDetails screen with the event id
                       Navigator.push(
@@ -170,18 +181,9 @@ class _HomeState extends State<Home> {
                       height: 317,
                       width: MediaQuery.of(context).size.width,
                       padding: const EdgeInsets.all(10),
-                      child:Column(
+                      child: Column(
                         children: [
                           Container(
-                            // height: 200,
-                            // decoration: BoxDecoration(
-                            //     image: const DecorationImage(
-                            //       image: AssetImage(
-                            //           'assets/cover.jpg'),
-                            //       fit: BoxFit.cover,
-                            //     ),
-                            //     borderRadius: BorderRadius.circular(10)
-                            // ),
                             child: Column(
                               children: [
                                 Stack(
@@ -233,24 +235,23 @@ class _HomeState extends State<Home> {
                               ],
                             ),
                           ),
-                           Expanded(
+                          Expanded(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(height: 10,),
-                                Text(events[index].date_time ?? 'No date available',
+                                Text(events[index].service ?? 'No date available',
                                   style: const TextStyle(
                                       color: Color(0xFFD43642)
                                   ),
                                 ),
-                                Text(events[index].service ?? 'No date available',
+                                Text(events[index].desc ?? 'No date available',
                                   style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold
                                   ),
                                 ),
-
                                 Stack(
                                   children: [
                                     Row(

@@ -18,7 +18,7 @@ class _RegFormState extends State<RegForm> {
   final TextEditingController _passwordController = TextEditingController();
 
   Future<void> _registerUser() async {
-    final String url = 'https://culturemambo.pivotnetworks.co.ke/public/api/register';
+    final String url = 'https://www.culturemambo.pivotnetworks.co.ke/public/api/register';
     final Map<String, String> data = {
       'name': _usernameController.text,
       'email': _emailController.text,

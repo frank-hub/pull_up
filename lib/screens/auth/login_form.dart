@@ -23,7 +23,7 @@ class _LoginFormState extends State<LoginForm> {
 
     try {
       final response = await http.post(
-        Uri.parse('https://culturemambo.pivotnetworks.co.ke/public/api/login'),
+        Uri.parse('https://www.culturemambo.pivotnetworks.co.ke/public/api/login'),
         body: {'email': email, 'password': password},
       );
 
