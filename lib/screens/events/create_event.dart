@@ -80,7 +80,7 @@ class _CreateEventsState extends State<CreateEvents> {
     });
   }
 
-  String selectedServiceProvider = 'Event Service Providers';
+  String selectedServiceProvider = 'Event Service Provider';
   String event_name = '';
   String eventDescription = '';
   DateTime selectedDateTime = DateTime.now();
